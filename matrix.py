@@ -18,7 +18,7 @@ class Help_Funtion:
                 element   = matrix[0][i]
 
                 new_matrix  = self.delete(matrix,i)
-                #recursive function to 
+                #recursive function to trim down the matrix till its 2x2 and then we compute the determinant
                 determinant += ((-1)**(i)) * element *self.compute_determinant(new_matrix )
                 
         return determinant
