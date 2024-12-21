@@ -40,12 +40,14 @@ class Matrix(Help_Funtion):
                 self.matrix.append(row)
 
     def check_square_matrix(self):
-        if len(self.row) == len(self.column)  and self.row !=0:
+        if len(self.row) == len(self.column)  and (self.row !=0):
             return True
 
     def determinant(self,):
-        pass
-        
+        if len(self.matrix  == 1) and self.check_square_matrix():
+            return self.matrix[0]
+        if self.check_square_matrix():
+            return self.compute_determinant(self.matrix)
     #function to delete the rows and columns of the element including the element
     def form_matrix(matrix):
         pass

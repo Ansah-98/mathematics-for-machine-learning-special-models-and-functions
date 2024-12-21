@@ -5,4 +5,4 @@ def trial(matrix):
     return determinant 
 
 model = trial([1,2,3])
-print(model         )
+print(model )
