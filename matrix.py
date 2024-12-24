@@ -26,26 +26,27 @@ class Help_Funtion:
 #make_simlar: used to create a similar function using the QR decomposition
 #basically decomposing the matrix and finding  multiple similar matrices 
 #leaving only the eigen values in the diagonal and forming an upper triangular matrix
-    def make_similar(matrix):
-        matrix  = np.array(matrix)
-        sim_matrix = np.linalg.qr(matrix)
-        return sim_matrix
 
-#compute_eigenvalue:returns a list of all the eigen_values of a matrix
+    def make_similar(matrix):
+        Q,R = np.linalg.qr(matrix) #generates a Q*R matrices which is similar to the input matrix
+        sim_matrix = np.dot(R,Q)
+        return sim_matrix 
+
+
+
+#compute_eigenvalue:returns a list of all the eigen_values of a 
     def gen_eigenvalue(self , matrix):
         sim_matrix  = Help_Funtion.make_similar(matrix)
-        leig = sim_matrix[-1][-1] #gets the last eigen value in the similar matrix 
+        leig = sim_matrix[-1,-1]#gets the last eigen value in the similar matrix 
         diff  = 1
 
-#iterate till the last eigen value's in the newest similar matrix
-# precision is less than 10^-32 compared to the eigen value before it
-        while diff > 1e-32: 
+        while diff > 1e-32: #iterate till the last eigen value's in the diagonal of the newest similar matrix
+                            # precision is less than 10^-32 compared to the eigen value before 
             sim_matrix  = Help_Funtion.make_similar(sim_matrix)
-            diff = abs(leig - sim_matrix[-1][-1])
-            leig =sim_matrix[-1][-1]
-        eigs = [sim_matrix[i,i] for i in range(len(sim_matrix))]
+            diff = abs(leig - sim_matrix[-1,-1])
+            leig = sim_matrix[-1,-1]
+        eigs = [float(sim_matrix[i,i]) for i in range(len(sim_matrix))]
         return eigs
-
 
 class Matrix(Help_Funtion):
     row = None
@@ -58,8 +59,8 @@ class Matrix(Help_Funtion):
         print("enter your matrix row by row")
         for i in range(self.row):
             row  = []
-            for i in range(self.column):
-                element  = int(input(f"enter the element at row {i + 1},  column {col + 1}"))
+            for j in range(self.column):
+                element  = int(input(f"enter the element at row {i + 1},  column { j + 1}"))
                 row.append(element)
             self.matrix.append(row)
 
@@ -80,5 +81,7 @@ class Matrix(Help_Funtion):
 
 model = Help_Funtion()
 determinant  = model.compute_determinant([[1,2,3],[3,1,2],[0,0,1]])
-eigen_values   = model.gen_eigenvalue([[1,2,3],[3,1,2],[0,0,1]])
+eigen_values   = model.gen_eigenvalue(np.array([[1,2,3],[3,1,2],[0,0,1]]))
 print(eigen_values)
+print(np.linalg.eigvals([[1,2,3],[3,1,2],[0,0,1]]))
+#print(eigen_values)
